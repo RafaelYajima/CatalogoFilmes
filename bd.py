@@ -52,6 +52,7 @@ class BD:
         sql = f"SELECT {campos} FROM {tabela}"
         self.cursor.execute(sql)
 
-        # Pega todos os dados retornados pelo banco e guarda na variavel dados
+        # Pega todos os dados retornados pelo banco
+        # e guarda na variavel dados
         dados = self.cursor.fetchall()
         return dados
