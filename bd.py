@@ -6,30 +6,40 @@ class BD:
     def __init__(self, banco_dados):
         self.conectarBanco(banco_dados)
 
-    # Conecta o arquivo de banco de dados e cria um suror
+    # Conecta no arquivo de banco de dados e cria um cursor
     def conectarBanco(self, banco_dados):
         self.banco = sqlite3.connect(banco_dados)
         self.cursor = self.banco.cursor()
 
-        self.criarTebelaFilmes()
+        self.criarTabelaFilmes()
 
-    def criarTebelaFilmes(self):
+    def criarTabelaFilmes(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS filmes(
-                if INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 titulo TEXT NOT NULL,
                 genero TEXT NOT NULL,
                 duracao TEXT NULL,
                 diretor TEXT NULL,
                 estudio TEXT NULL,
                 classificacao TEXT NULL,
-                ano DATE NULL,
+                ano DATE NULL
             )
         """)
 
-    def inserir(seld, tabela, valores):
-        sql = f"INSERT INTO {tabela}"
+    def inserir(self, tabela, valores):
+        sql = f"INSERT INTO {tabela} ("
 
         for chave, valor in valores.items():
-            print(chave, valor)
             sql += f"{chave},"
+
+        sql += ')'
+
+        for chave, valor in valores.items():
+            sql += f"{valor},"
+
+        print(sql)
+        # INSERT INTO filmes 
+        # (titulo,genero,duracao,diretor,estudio,
+        # classificacao,ano,)
+        # Sherek,Aventura,,,,,,,

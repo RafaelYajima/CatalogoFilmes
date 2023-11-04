@@ -1,14 +1,13 @@
 import os
 from bd import BD
+# Classe para interface do usuário do programa
 
-# Classe para interface do usuario do programa
 class Interface:
     # Construtor
     def __init__(self):
         self.banco = BD("catalogoFilmes.db")
-    
-    def logoTipo(self):
-        print()
+
+    def logotipo(self):
         print("============================")
         print("=====Catalogo de Filmes=====")
         print("============================")
@@ -17,30 +16,30 @@ class Interface:
     def limpaTela(self):
         os.system('cls' if os.name == 'nt' else 'clear')
 
-    # Função que permite o usuario escolher uma opção
-    # opçoes = []
+    # Função que permite o usuário escolher uma opção
+    # opcoes = []
     def selecionaOpcao(self, opcoesPermitidas = []):
         opcaoSelecionada = input("Digite a opção desejada: ")
 
         # Verifica se digitou algo
         if opcaoSelecionada == "":
             return self.selecionaOpcao(opcoesPermitidas)
-            
-        # Tenta converter para numero
+
+        # Tenta converter para números
         try:
             opcaoSelecionada = int(opcaoSelecionada)
         except ValueError:
-            print("Opção invalida!")
+            print("Opção Inválida!")
             return self.selecionaOpcao(opcoesPermitidas)
 
-        # Verifica se a opção selecionada é valida
+        # Verifica se a opção selecionada é uma das opções válidas
         if opcaoSelecionada not in opcoesPermitidas:
-            print("Opção invalida!")
+            print("Opção Inválida!")
             return self.selecionaOpcao(opcoesPermitidas)
 
-        # Retorna o valor selecionado pelo usuario
+        # Retorna o valor selecionado pelo usuário
         return opcaoSelecionada
-    
+
     # Mostra menu principal do sistema
     def mostraMenuPrincipal(self):
         print("1 - Cadastrar filme")
@@ -49,18 +48,19 @@ class Interface:
         print()
 
     def mostraCadastroFilmes(self):
-        self.logoTipo()
+        self.logotipo()
 
         print("Insira os dados do filme:")
-        print("(campos com * são obrigatorios)")
+        print("(campos com * são obrigatórios)")
+        print()
 
-        titulo = self.solicitaValor('Nome do titulo: ', 'texto', False)
-        genero = self.solicitaValor('Qual gênero: ', 'texto', False)
-        duracao = self.solicitaValor('Duração do filme: ', 'texto', True)
-        diretor = self.solicitaValor('Nome do diretor: ', 'texto', True)
-        estudio = self.solicitaValor('Nome do estudio: ', 'texto', True)
-        classificacao = self.solicitaValor('Qual a classificação: ', 'texto', True)
-        ano = self.solicitaValor('Ano do filme: ', 'texto', True)
+        titulo = self.solicitaValor('Digite o título*: ', 'texto', False)
+        genero = self.solicitaValor('Digite o gênero*: ', 'texto', False)
+        duracao = self.solicitaValor('Digite a duração: ', 'texto', True)
+        diretor = self.solicitaValor('Digite o nome do diretor: ', 'texto', True)
+        estudio = self.solicitaValor('Digite o nome do estúdio: ', 'texto', True)
+        classificacao = self.solicitaValor('Digite a classificação: ', 'texto', True)
+        ano = self.solicitaValor('Digite o ano: ', 'numero', True)
 
         # Armazena os valores no banco de dados!
         valores = {
@@ -70,26 +70,29 @@ class Interface:
             "diretor": diretor,
             "estudio": estudio,
             "classificacao": classificacao,
-            "ano": ano,
+            "ano": ano
         }
-        self.banco.inserir('filmes',)
 
-    # Solicita um valor do usuario e valida ele
+        self.banco.inserir('filmes', valores)
+
+    # Solicita um valor do usuário e valida ele.
+    # return valorDigitado
     def solicitaValor(self, legenda, tipo = 'texto', permiteNulo = False):
         valor = input(legenda)
 
-        # Verifica se eata vazio
+        # Verifica se está vazio
         if valor == "" and not permiteNulo:
-            print("Valor invalido!")
+            print("Valor inválido!")
             return self.solicitaValor(legenda, tipo, permiteNulo)
         elif valor == "" and permiteNulo:
             return valor
         
-        # verifica se esta no formato correto
+        # Verifica se está no formato correto
         if tipo == 'numero':
             try:
                 valor = float(valor)
             except ValueError:
-                print("Valor invalido!")
+                print("Valor Inválido!")
                 return self.solicitaValor(legenda, tipo, permiteNulo)
+            
         return valor
