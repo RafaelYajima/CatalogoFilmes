@@ -8,6 +8,7 @@ class Interface:
         self.banco = BD("catalogoFilmes.db")
 
     def logotipo(self):
+        print()
         print("============================")
         print("=====Catalogo de Filmes=====")
         print("============================")

@@ -28,18 +28,11 @@ class BD:
         """)
 
     def inserir(self, tabela, valores):
-        sql = f"INSERT INTO {tabela} ("
+        colunas = ', '.join(valores.keys())
+        placeholders = ', '.join(['?'] * len(valores))
 
-        for chave, valor in valores.items():
-            sql += f"{chave},"
+        # Cria sql do banco de dados
+        sql = f"INSERT INTO {tabela} ({colunas}) VALUES ({placeholders})"
 
-        sql += ')'
-
-        for chave, valor in valores.items():
-            sql += f"{valor},"
-
-        print(sql)
-        # INSERT INTO filmes 
-        # (titulo,genero,duracao,diretor,estudio,
-        # classificacao,ano,)
-        # Sherek,Aventura,,,,,,,
+        # Executa o sql no banco de dados
+        self.cursor.execute(sql, tuple(valores.values()))
