@@ -1,10 +1,11 @@
 import os
+from bd import BD
 
 # Classe para interface do usuario do programa
 class Interface:
     # Construtor
     def __init__(self):
-        pass
+        self.banco = BD("catalogoFilmes.db")
     
     def logoTipo(self):
         print()
@@ -62,7 +63,16 @@ class Interface:
         ano = self.solicitaValor('Ano do filme: ', 'texto', True)
 
         # Armazena os valores no banco de dados!
-        
+        valores = {
+            "titulo": titulo,
+            "genero": genero,
+            "duracao": duracao,
+            "diretor": diretor,
+            "estudio": estudio,
+            "classificacao": classificacao,
+            "ano": ano,
+        }
+        self.banco.inserir('filmes',)
 
     # Solicita um valor do usuario e valida ele
     def solicitaValor(self, legenda, tipo = 'texto', permiteNulo = False):

@@ -26,3 +26,10 @@ class BD:
                 ano DATE NULL,
             )
         """)
+
+    def inserir(seld, tabela, valores):
+        sql = f"INSERT INTO {tabela}"
+
+        for chave, valor in valores.items():
+            print(chave, valor)
+            sql += f"{chave},"
